@@ -43,11 +43,10 @@ allowed_extensions = {".jpg", ".jpeg", ".png"}
 
 
 def resolve_model_path():
-    candidates = [ROOT / "model" / "YOLOv7.pt", ROOT / "model" / "model.pt"]
-    for candidate in candidates:
-        if candidate.exists():
-            return str(candidate)
-    raise FileNotFoundError("YOLOv7 model not found in model/YOLOv7.pt or model/model.pt")
+    model_path = ROOT / "model" / "YOLOv7.pt"
+    if model_path.exists():
+        return str(model_path)
+    raise FileNotFoundError("YOLOv7 model not found in model/YOLOv7.pt")
 
 
 def detect_device_label():

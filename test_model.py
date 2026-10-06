@@ -25,11 +25,10 @@ from utils.general import non_max_suppression  # noqa: E402
 
 
 def resolve_model_path():
-    candidates = [ROOT / "model" / "YOLOv7.pt", ROOT / "model" / "model.pt"]
-    for candidate in candidates:
-        if candidate.exists():
-            return candidate
-    raise FileNotFoundError("No YOLOv7.pt or model.pt file found in the model folder.")
+    model_path = ROOT / "model" / "YOLOv7.pt"
+    if model_path.exists():
+        return model_path
+    raise FileNotFoundError("No YOLOv7.pt file found in the model folder.")
 
 
 def main():
