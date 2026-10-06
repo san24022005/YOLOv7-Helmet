@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Safety Equipment Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">SAFETY AI</p>
+          <h1>Helmet &amp; Reflective Jacket Detection</h1>
+        </div>
+        <span class="device-pill">Device: {{ device_label }}</span>
+      </header>
+
+      <main class="dashboard">
+        <section class="panel upload-panel">
+          <div class="panel-header">
+            <h2>Upload Image</h2>
+          </div>
+
+          <form id="uploadForm" enctype="multipart/form-data">
+            <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Upload an image">
+              <input id="imageInput" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png" hidden />
+              <div class="dropzone-inner">
+                <div class="dropzone-icon">⇪</div>
+                <h3>Upload your image</h3>
+                <p>Drag &amp; Drop</p>
+                <span>or</span>
+                <button id="chooseImageButton" type="button" class="primary-btn">Choose Image</button>
+              </div>
+            </div>
+
+            <div class="threshold-box">
+              <label for="confidenceSlider">Confidence Threshold</label>
+              <div class="slider-row">
+                <span>0.00</span>
+                <input id="confidenceSlider" type="range" min="0.05" max="1.00" step="0.01" value="0.50" />
+                <span>1.00</span>
+              </div>
+              <div class="slider-value">Confidence: <strong id="confidenceValue">0.50</strong></div>
+            </div>
+
+            <div class="action-row">
+              <button id="detectButton" type="submit" class="primary-btn">Detect</button>
+              <button id="resetButton" type="button" class="secondary-btn">Reset</button>
+            </div>
+          </form>
+        </section>
+
+        <div class="two-column">
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Original Image</h2>
+            </div>
+            <div class="image-panel">
+              <img id="originalImage" src="" alt="Original upload preview" />
+              <div id="emptyOriginal" class="empty-state">No image selected</div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Detection Result</h2>
+            </div>
+            <div class="image-panel">
+              <img id="resultImage" src="" alt="Detected result" />
+              <div id="emptyResult" class="empty-state">Awaiting detection</div>
+            </div>
+            <div class="download-row">
+              <a id="downloadLink" class="download-btn hidden" href="#" download>Download Result</a>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel stats-panel">
+          <div class="panel-header">
+            <h2>Detection Statistics</h2>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-label">Total Objects</span>
+              <strong id="totalObjects">0</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Helmet</span>
+              <strong id="helmetCount">0</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Reflective Jacket</span>
+              <strong id="reflectiveJacketCount">0</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Average Confidence</span>
+              <strong id="averageConfidence">0.00</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Highest Confidence</span>
+              <strong id="highestConfidence">0.00</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel table-panel">
+          <div class="panel-header">
+            <h2>Detection Table</h2>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Class</th>
+                  <th>Confidence</th>
+                  <th>Bounding Box</th>
+                </tr>
+              </thead>
+              <tbody id="resultsTableBody">
+                <tr>
+                  <td colspan="3" class="empty-table">No detections yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div id="statusMessage" class="status-message hidden" aria-live="polite"></div>
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>
